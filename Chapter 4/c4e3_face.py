@@ -54,5 +54,7 @@ def main():
     nose.setWidth(0)
     nose.draw(win)
 
+    win.getMouse()
+    win.close()
     
 main()

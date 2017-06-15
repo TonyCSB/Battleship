@@ -67,4 +67,8 @@ def main():
     number4_4 = Circle.clone(number4_3)
     number4_4.move(0, -0.6)
     number4_4.draw(win)
+
+    win.getMouse()
+    win.close()
+    
 main()
