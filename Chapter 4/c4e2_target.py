@@ -30,4 +30,7 @@ def main():
     yellowRing.setFill("yellow")
     yellowRing.draw(win)
 
+    win.getMouse()
+    win.close()
+
 main()
