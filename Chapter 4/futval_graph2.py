@@ -8,7 +8,7 @@ def main():
     print("This program plots the growth of a 10-year investment.")
 
     # Get principal and interest rate
-    principal = float(input("Enter the initial rincipal: "))
+    principal = float(input("Enter the initial principal: "))
     apr = float(input("Enter the annualized interest rate: "))
 
     # Create a graphics window with labels on left edge
