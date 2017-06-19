@@ -64,7 +64,7 @@ def main():
         bar.setWidth(2)
         bar.draw(win)
 
-    input("Press <Enter> to quit")
+    win.getMouse()
     win.close()
 
 main()
