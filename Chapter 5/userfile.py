@@ -1,13 +1,16 @@
 # userfile.py
 # John Zelle
 
+from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import asksavefilename
+
 def main():
     print("This program creates a file of usernames from a")
     print("file of names.")
 
     # get the file names
-    infileName = input("What file are the names in? ")
-    outfileName = input("What file should the usernames go in? ")
+    infileName = askopenfilename()
+    outfileName = asksavefilename()
 
     # open the files
     infile = open(infileName, "r")
