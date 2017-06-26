@@ -1,0 +1,23 @@
+# c5e7_cipher.py
+# Tony Chen
+
+def main():
+    print("This program can be used to encode (or decode) a")
+    print("message using a simple Caesar cipher (each letter")
+    print("shifted by a fixed amount).\n")
+
+    text = input("Message? ")
+
+    key = int(input("How far should each letter by shifted? "))
+
+    print()
+
+    message = ""
+
+    for ch in text:
+        letter = chr(ord(ch) + key)
+        message = message + letter
+
+    print("Result:", message)
+
+main()
