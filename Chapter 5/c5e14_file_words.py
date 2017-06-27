@@ -1,13 +1,11 @@
 # c5e14_file_words.py
 # Tony Chen
 
-from tkinter.filedialog import askopenfilename
-
 def main():
     print("This program counts the number of lines, words and")
     print("characters in a file.\n")
 
-    infileName = askopenfilename()
+    infileName = input("The file's name: ")
     
     infile = open(infileName, "r")
 
@@ -20,6 +18,7 @@ def main():
 
         for w in l.split():
             words = words + 1
+            characters = characters + 1
 
             for ch in w:
                 characters = characters + 1

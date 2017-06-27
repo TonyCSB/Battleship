@@ -12,11 +12,12 @@ def main():
 
     print()
 
-    message = ""
+    messageList = []
 
     for ch in text:
-        letter = chr(ord(ch) + key)
-        message = message + letter
+        messageList.append(chr(ord(ch) + key))
+
+    message = "".join(messageList)
 
     print("Result:", message)
 
