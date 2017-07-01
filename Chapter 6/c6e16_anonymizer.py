@@ -96,5 +96,8 @@ def main():
         size = distance(center, p2)
         drawFace(center, size, win)
 
+    win.getMouse()
+    win.close()
+
 main()
     
