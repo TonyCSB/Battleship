@@ -7,7 +7,7 @@ def main():
 
     print()
     
-    n = int(input("Which Fibonacci number to you want to find? "))
+    n = int(input("Which Fibonacci number do you want to find? "))
     a = 1
     b = 1
 
