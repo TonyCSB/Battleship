@@ -34,6 +34,8 @@ def main():
     squareList = squareEach(numList)
     result = sumList(squareList)
 
+    infile.close()
+
     print()
 
     print("The sum of the square is:", result)
