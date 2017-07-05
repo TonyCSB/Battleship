@@ -37,15 +37,10 @@ def main():
 
     text.undraw()
 
-    d = a
-
-    # for i in range(10000):
-    while True:
+    for i in range(10000):
         circle.move(dx, dy)
         
         c = circle.getCenter()
-
-        Line(c, d).draw(win)
         
         if c.getX() >= 219:
             dx = -1
@@ -56,8 +51,6 @@ def main():
             dy = -1
         elif c.getY() <= -119:
             dy = 1
-
-        d = c
 
         update(100)
 
