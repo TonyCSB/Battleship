@@ -1,4 +1,4 @@
-# c7d3
+# c7d3_silly.py
 # Tony Chen
 
 def main():
