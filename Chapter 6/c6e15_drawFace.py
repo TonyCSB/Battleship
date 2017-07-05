@@ -6,11 +6,15 @@ from graphics import *
 def drawFace(center, size, win):
     x, y = center.getX(), center.getY()
     
-    face = Circle(center, size)
-    face.setWidth(1.5 * size)
-    face.setOutline("Orange")
-    face.setFill("Yellow")
-    face.draw(win)
+    face2 = Circle(center, size * 1.15)
+    face2.setWidth(0)
+    face2.setFill("Orange")
+    face2.draw(win)
+
+    face1 = Circle(center, size)
+    face1.setWidth(0)
+    face1.setFill("Yellow")
+    face1.draw(win)
 
     mouth1 = Circle(center, 0.75 * size)
     mouth1.setFill("Brown")
@@ -50,11 +54,11 @@ def drawFace(center, size, win):
 
     eyeLeft = 0.125 * size
     eyeUp = 0.1 * size
-
-    eye1 = Oval(Point(-eyeWidth - eyeLeft, eyeUp), Point(-eyeLeft, eyeUp + eyeHeight))
-    eye1.setWidth(1.5 * size)
+    
+    eye1 = Oval(Point(-eyeWidth - eyeLeft, eyeUp),
+                Point(-eyeLeft, eyeUp + eyeHeight))
+    eye1.setWidth(0)
     eye1.setFill("Brown")
-    eye1.setOutline("Sandy Brown")
     eye1.move(x, y)
     eye1.draw(win)
 

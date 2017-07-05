@@ -7,12 +7,16 @@ from math import *
 def drawFace(center, size, win):
     x, y = center.getX(), center.getY()
     
-    face = Circle(center, size)
-    face.setWidth(1.5 * size)
-    face.setOutline("Orange")
-    face.setFill("Yellow")
-    face.draw(win)
+    face2 = Circle(center, size * 1.15)
+    face2.setWidth(0)
+    face2.setFill("Orange")
+    face2.draw(win)
 
+    face1 = Circle(center, size)
+    face1.setWidth(0)
+    face1.setFill("Yellow")
+    face1.draw(win)
+    
     mouth1 = Circle(center, 0.75 * size)
     mouth1.setFill("Brown")
     mouth1.setWidth(0)
@@ -25,26 +29,11 @@ def drawFace(center, size, win):
     mouth2.move(x, y)
     mouth2.draw(win)
 
-    cover1 = Rectangle(Point(-0.75 * size, 0.1 * size),
-                       Point(0.75 * size, 0.5 * size))
-    cover1.setFill("Yellow")
-    cover1.setWidth(0)
-    cover1.move(x, y)
-    cover1.draw(win)
+    left = [0.75, 0.6, 0.3]
+    down = [0.1, 0.5, 0.7]
+    up = [0.5, 0.7, 0.8]
 
-    cover2 = Rectangle(Point(-0.6 * size, 0.5 * size),
-                       Point(0.6 * size, 0.7 * size))
-    cover2.setFill("Yellow")
-    cover2.setWidth(0)
-    cover2.move(x, y)
-    cover2.draw(win)
-
-    cover3 = Rectangle(Point(-0.3 * size, 0.7 * size),
-                       Point(0.3 * size, 0.8 * size))
-    cover3.setFill("Yellow")
-    cover3.setWidth(0)
-    cover3.move(x, y)
-    cover3.draw(win)
+    cover(left, down, up, size, win, x, y)
     
     eyeWidth = 0.3 * size
     eyeHeight = 0.4 * size
@@ -52,10 +41,10 @@ def drawFace(center, size, win):
     eyeLeft = 0.125 * size
     eyeUp = 0.1 * size
 
-    eye1 = Oval(Point(-eyeWidth - eyeLeft, eyeUp), Point(-eyeLeft, eyeUp + eyeHeight))
-    eye1.setWidth(1.5 * size)
+    eye1 = Oval(Point(-eyeWidth - eyeLeft, eyeUp),
+                Point(-eyeLeft, eyeUp + eyeHeight))
+    eye1.setWidth(0)
     eye1.setFill("Brown")
-    eye1.setOutline("Sandy Brown")
     eye1.move(x, y)
     eye1.draw(win)
 
@@ -73,10 +62,20 @@ def distance(p1, p2):
     d = sqrt((p1.getX() - p2.getX()) ** 2 + (p1.getY() - p2.getY()) ** 2)
     return d
 
+def cover(left, down, up, size, win, x, y):
+    for i in range(len(left)):
+        cover = Rectangle(Point(-left[i] * size, down[i] * size),
+                          Point(left[i] * size, up[i] * size))
+        cover.setFill("Yellow")
+        cover.setWidth(0)
+        cover.move(x, y)
+        cover.draw(win)
+
 def main():
     print("This program allows you to draw a cartoon face on the picture.\n")
 
-    infileName = input("Picture file name? ")
+    infileName = input("Picture file name?(.gif/.ppm) ")
+    n = int(input("How many faces are to be blocked? "))
 
     image = Image(Point(0, 0), infileName)
 
@@ -84,15 +83,20 @@ def main():
     y = image.getHeight()
 
     win = GraphWin("Anonymizer.py", x, y)
-    win.setCoords(-10, -10, 10, 10)
+    win.setCoords(-x, -y, x, y)
 
     image.draw(win)
 
-    n = int(input("How many faces are to be blocked? "))
-
     for i in range(n):
         center = win.getMouse()
+        centerPoint = Circle(center, 0.01 * x)
+        centerPoint.setOutline("Red")
+        centerPoint.setFill("Red")
+        centerPoint.draw(win)
+        
         p2 = win.getMouse()
+        centerPoint.undraw()
+        
         size = distance(center, p2)
         drawFace(center, size, win)
 
