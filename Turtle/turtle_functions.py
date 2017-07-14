@@ -32,10 +32,10 @@ def polygonStar(turtle, sideLength, numSides, numPolygons):
 def main():
     t = Turtle()
     t.reset()
-    #square(t, 100)
-    #triangle(t, 100)
-    #polygon(t, 100, 10)
-    polygonStar(t, 100, 9, 20)
+    square(t, 100)
+    triangle(t, 100)
+    polygon(t, 100, 10)
+    polygonStar(t, 100, 4, 20)
 
 if __name__ == "__main__":
     main()
