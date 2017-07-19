@@ -17,14 +17,12 @@ def printIntro():
     print("has the first serve.\n")
 
 def getInput():
-    # Returns the three simulations parameters probA, probB and n
     a = float(input("What is the prob. player A wins a serve? "))
     b = float(input("What is the prob. player B wins a serve? "))
     n = int(input("How many games to simulates? "))
     return a, b, n
 
 def simNGames(n, probA, probB):
-    # Simulates n games and returns winsA and winsB
     winsA = 0
     winsB = 0
     aShutOut = 0
