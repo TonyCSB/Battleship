@@ -59,8 +59,7 @@ def drawLine(a, b):
     line.setFill("Blue Violet")
     line.draw(win)
 
-def randomShips():
-    
+def randomShips():    
     randomCarrier()
     randomBattleship()
     randomCruiser()
@@ -73,32 +72,12 @@ def randomCarrier():
 
     x, y = randomPoint()
 
-    up = True
-    down = True
-    left = True
-    right = True
-
-    if y <= 3:
-        up = False
-        
-    elif y >= 6:
-        down = False
-
-    if x <= 3:
-        left = False
-
-    elif x >= 6:
-        right = False
-
-    direction = randomDirection()
-
-    while eval(direction) == False:
-        direction = randomDirection()
+    direction = getDirection(x, y, 5)
 
     xList = []
     yList = []
 
-    errors = appendList(direction, 5, x, y)
+    appendList(direction, 5, x, y)
 
 def randomBattleship():
 
@@ -108,32 +87,15 @@ def randomBattleship():
         while isHit(x, y):
             x, y = randomPoint()
 
-        up = True
-        down = True
-        left = True
-        right = True
-
-        if y <= 2:
-            up = False
-            
-        elif y >= 7:
-            down = False
-
-        if x <= 2:
-            left = False
-
-        elif x >= 7:
-            right = False
-
-        direction = randomDirection()
-
-        while eval(direction) == False:
-            direction = randomDirection()
+        direction = getDirection(x, y, 4)
 
         errors = appendList(direction, 4, x, y)
 
         if errors == False:
             break
+        
+        del xList[-4:]
+        del yList[-4:]
 
 def randomCruiser():
 
@@ -143,32 +105,15 @@ def randomCruiser():
         while isHit(x, y):
             x, y = randomPoint()
 
-        up = True
-        down = True
-        left = True
-        right = True
-
-        if y <= 1:
-            up = False
-            
-        elif y >= 8:
-            down = False
-
-        if x <= 1:
-            left = False
-
-        elif x >= 8:
-            right = False
-
-        direction = randomDirection()
-
-        while eval(direction) == False:
-            direction = randomDirection()
+        direction = getDirection(x, y, 3)
 
         errors = appendList(direction, 3, x, y)
 
         if errors == False:
             break
+
+        del xList[-3:]
+        del yList[-3:]
 
 def randomSubmarine():
     randomCruiser()
@@ -181,32 +126,40 @@ def randomDestroyer():
         while isHit(x, y):
             x, y = randomPoint()
 
-        up = True
-        down = True
-        left = True
-        right = True
-
-        if y <= 0:
-            up = False
-            
-        elif y >= 9:
-            down = False
-
-        if x <= 0:
-            left = False
-
-        elif x >= 9:
-            right = False
-
-        direction = randomDirection()
-
-        while eval(direction) == False:
-            direction = randomDirection()
+        direction = getDirection(x, y, 2)
 
         errors = appendList(direction, 2, x, y)
 
         if errors == False:
             break
+
+        del xList[-2:]
+        del yList[-2:]
+
+def getDirection(x, y, n):
+    up = True
+    down = True
+    left = True
+    right = True
+
+    if y <= n - 2:
+        up = False
+        
+    elif y >= -n + 11:
+        down = False
+
+    if x <= n - 2:
+        left = False
+
+    elif x >= -n + 11:
+        right = False
+
+    direction = randomDirection()
+
+    while eval(direction) == False:
+        direction = randomDirection()
+
+    return direction
         
 def appendList(direction, n, x, y):
     global xList
@@ -311,6 +264,11 @@ def randomDirection():
 
 def playGame():
     global win
+    global xClickList
+    global yClickList
+
+    xClickList = []
+    yClickList = []
 
     hit = 0
     click = 0
@@ -371,11 +329,34 @@ def drawMiss(x, y):
     line2.draw(win)
 
 def isEffect(x, y):
+    global xClickList
+    global yClickList
+    
+    click = False
+    i = 0
 
     if (x >= 0 and x <= 9) and (y >= 0 and y <= 9):
-        return True
+        click = True
+        
+        while True:
+            if xClickList == []:
+                break
+            
+            if x == xClickList[i] and y == yClickList[i]:
+                click = False
+                break
+            
+            i = i + 1
 
-    return False
+            if i == len(xClickList):
+                break
+
+    if click == True:     
+        xClickList.append(x)
+        yClickList.append(y)
+            
+
+    return click
 
 def exitGame():
     global win
@@ -388,12 +369,16 @@ def exitGame():
         pass
     
 def main():
-    drawWindow()
-    printIntro()
-    drawInterface()
-    randomShips()
-    playGame()
-    exitGame()
+    try:
+        drawWindow()
+        printIntro()
+        drawInterface()
+        randomShips()
+        playGame()
+        exitGame()
 
+    except:
+        pass
+    
 if __name__ == "__main__":
     main()
