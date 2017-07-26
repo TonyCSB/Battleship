@@ -13,12 +13,26 @@ def drawWindow():
 def printIntro():
     global win
 
-    intro = Text(Point(4.5, 4.5), "Welcome to the game of Battleship!\n\n" +
-                 "Press <Enter> to continue.")
+    intro = Text(Point(4.5, 4), "Welcome to the game of Battleship!")
     intro.draw(win)
 
-    win.getKey()
+    square = Rectangle(Point(3, 5.25), Point(6, 6.75))
+    square.draw(win)
+
+    text = Text(Point(4.5, 6), "Continue")
+    text.draw(win)
+    
+    while True:
+        a = win.getMouse()
+
+        x, y = a.getX(), a.getY()
+
+        if 3 <= x <= 6 and 5.25 <= y <= 6.75:
+            break
+        
     intro.undraw()
+    square.undraw()
+    text.undraw()
 
 def drawInterface():
     drawNumbers()
@@ -67,8 +81,7 @@ def randomShips():
     randomDestroyer()
 
 def randomCarrier():
-    global xList
-    global yList
+    global xList, yList
 
     x, y = randomPoint()
 
@@ -162,8 +175,7 @@ def getDirection(x, y, n):
     return direction
         
 def appendList(direction, n, x, y):
-    global xList
-    global yList
+    global xList, yList
     
     errors = False
 
@@ -218,8 +230,7 @@ def appendList(direction, n, x, y):
     return errors
 
 def isHit(x, y):
-    global xList
-    global yList
+    global xList, yList
 
     i = 0
     hit = False
@@ -263,15 +274,18 @@ def randomDirection():
         return "right"
 
 def playGame():
-    global win
-    global xClickList
-    global yClickList
+    global win, xClickList, yClickList, hitList, sunkText
 
     xClickList = []
     yClickList = []
+    hitList = []
 
     hit = 0
     click = 0
+
+    
+    sunkText = Text(Point(4.5, 10.5),"")
+    sunkText.draw(win)
 
     text = Text(Point(4.5, -1.5), "Hit: {0:>3}         Round: {1:>3}"
                 .format(hit, click))
@@ -283,8 +297,9 @@ def playGame():
         if isEffect(x, y):
 
             if isHit(x, y):
-                drawSink(x, y)
+                drawSunk(x, y)
                 hit = hit + 1
+                isSunk(x, y)
                 
             else:
                 drawMiss(x, y)
@@ -307,7 +322,7 @@ def getMouse():
 
     return x, y
 
-def drawSink(x, y):
+def drawSunk(x, y):
     global win
     
     circle = Circle(Point(x + 0.5, y + 0.5), 0.3)
@@ -357,6 +372,48 @@ def isEffect(x, y):
             
 
     return click
+
+def isSunk(x, y):
+    global hitList, win, xList, yList, sunkText
+
+    i = 0
+
+    while True:
+        if x == xList[i] and y == yList[i]:
+            break
+
+        i = i + 1
+
+    if i <= 4:
+        hitList.append(5)
+    elif i <= 8:
+        hitList.append(4)
+    elif i <= 11:
+        hitList.append(3)
+    elif i <= 14:
+        hitList.append(2)
+    else:
+        hitList.append(1)
+
+    if hitList.count(5) == 5:
+        sunkText.setText("You've sunk the enemy carrier!")
+        hitList.remove(5)
+        
+    elif hitList.count(4) == 4:
+        sunkText.setText("You've sunk the enemy battleship!")
+        hitList.remove(4)
+        
+    elif hitList.count(3) == 3:
+        sunkText.setText("You've sunk the enemy cruiser!")
+        hitList.remove(3)
+        
+    elif hitList.count(2) == 3:
+        sunkText.setText("You've sunk the enemy submarine!")
+        hitList.remove(2)
+        
+    elif hitList.count(1) == 2:
+        sunkText.setText("You've sunk the enemy destroyer!")
+        hitList.remove(1)    
 
 def exitGame():
     global win
