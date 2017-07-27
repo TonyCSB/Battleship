@@ -1,4 +1,5 @@
 # Battleship
+# Tony Chen
 
 This is a small game called battleship written in Python 3.6.
 
