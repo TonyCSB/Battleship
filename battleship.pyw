@@ -1,9 +1,8 @@
-# battleship_game_2.0.py
+# battleship_game_3.0.py
 # Tony Chen
 
-##  Version 2.0
-##      - added support for multiple player mode
-##      - allow players to place ships on their own
+##  Version 3.0
+##      - able to identify if the ships are placed on one line
 
 from graphics import *
 from random import random
@@ -366,13 +365,54 @@ def placeShip(player):
 
 def placeCarrier(text):
     global win, warning1
+    global xList1, yList1, xList2, yList2
 
-    a = shipCircle()
-    b = shipCircle()
-    c = shipCircle()
-    d = shipCircle()
-    e = shipCircle()
+    carrierListX, carrierListY = [], []
 
+    a = shipCircle(carrierListX, carrierListY)
+    b = shipCircle(carrierListX, carrierListY)
+    c = shipCircle(carrierListX, carrierListY)
+    d = shipCircle(carrierListX, carrierListY)
+    e = shipCircle(carrierListX, carrierListY)
+
+    error = False
+
+    if carrierListX[0] == carrierListX[1]:
+        for i in range(len(carrierListX) - 1):
+            if carrierListX[i] != carrierListX[i + 1]:
+                error = True
+        carrierListY.sort()
+        for i in range(len(carrierListY) - 1):
+            if abs(carrierListY[i] - carrierListY[i + 1]) != 1:
+                error = True
+                
+    elif carrierListY[0] == carrierListY[1]:
+        for i in range(len(carrierListY) - 1):
+            if carrierListY[i] != carrierListY[i + 1]:
+                error = True
+        carrierListX.sort()
+        for i in range(len(carrierListX) - 1):
+            if abs(carrierListX[i] - carrierListX[i + 1]) != 1:
+                error = True
+                
+    else:
+        error = True
+
+    if error == True:
+        for i in [a, b, c, d, e]:
+            i.undraw()
+
+        if text[-1] == "1":
+            del xList1[-5:]
+            del yList1[-5:]
+        else:
+            del xList2[-5:]
+            del yList2[-5:]
+        
+        warning1.setStyle("bold")
+        a, b, c, d, e = placeCarrier(text)
+        warning1.setStyle("normal")
+        
     warning1.setText("Time for " + text + " to place the Battleship.\n" +
                     "(Please click on 4 consecutive grid)")
 
@@ -380,11 +420,52 @@ def placeCarrier(text):
 
 def placeBattleship(text):
     global win, warning1
+    global xList1, yList1, xList2, yList2
 
-    a = shipCircle()
-    b = shipCircle()
-    c = shipCircle()
-    d = shipCircle()
+    battleshipListX, battleshipListY = [], []
+
+    a = shipCircle(battleshipListX, battleshipListY)
+    b = shipCircle(battleshipListX, battleshipListY)
+    c = shipCircle(battleshipListX, battleshipListY)
+    d = shipCircle(battleshipListX, battleshipListY)
+
+    error = False
+
+    if battleshipListX[0] == battleshipListX[1]:
+        for i in range(len(battleshipListX) - 1):
+            if battleshipListX[i] != battleshipListX[i + 1]:
+                error = True
+        battleshipListY.sort()
+        for i in range(len(battleshipListY) - 1):
+            if abs(battleshipListY[i] - battleshipListY[i + 1]) != 1:
+                error = True
+                
+    elif battleshipListY[0] == battleshipListY[1]:
+        for i in range(len(battleshipListY) - 1):
+            if battleshipListY[i] != battleshipListY[i + 1]:
+                error = True
+        battleshipListX.sort()
+        for i in range(len(battleshipListX) - 1):
+            if abs(battleshipListX[i] - battleshipListX[i + 1]) != 1:
+                error = True
+                
+    else:
+        error = True
+
+    if error == True:
+        for i in [a, b, c, d]:
+            i.undraw()
+
+        if text[-1] == "1":
+            del xList1[-4:]
+            del yList1[-4:]
+        else:
+            del xList2[-4:]
+            del yList2[-4:]
+        
+        warning1.setStyle("bold")
+        a, b, c, d = placeBattleship(text)
+        warning1.setStyle("normal")
 
     warning1.setText("Time for " + text + " to place the Cruiser.\n" +
                     "(Please click on 3 consecutive grid)")
@@ -393,10 +474,51 @@ def placeBattleship(text):
 
 def placeCruiser(text):
     global win, warning1
+    global xList1, yList1, xList2, yList2
 
-    a = shipCircle()
-    b = shipCircle()
-    c = shipCircle()
+    cruiserListX, cruiserListY = [], []
+
+    a = shipCircle(cruiserListX, cruiserListY)
+    b = shipCircle(cruiserListX, cruiserListY)
+    c = shipCircle(cruiserListX, cruiserListY)
+
+    error = False
+
+    if cruiserListX[0] == cruiserListX[1]:
+        for i in range(len(cruiserListX) - 1):
+            if cruiserListX[i] != cruiserListX[i + 1]:
+                error = True
+        cruiserListY.sort()
+        for i in range(len(cruiserListY) - 1):
+            if abs(cruiserListY[i] - cruiserListY[i + 1]) != 1:
+                error = True
+                
+    elif cruiserListY[0] == cruiserListY[1]:
+        for i in range(len(cruiserListY) - 1):
+            if cruiserListY[i] != cruiserListY[i + 1]:
+                error = True
+        cruiserListX.sort()
+        for i in range(len(cruiserListX) - 1):
+            if abs(cruiserListX[i] - cruiserListX[i + 1]) != 1:
+                error = True
+                
+    else:
+        error = True
+
+    if error == True:
+        for i in [a, b, c]:
+            i.undraw()
+
+        if text[-1] == "1":
+            del xList1[-3:]
+            del yList1[-3:]
+        else:
+            del xList2[-3:]
+            del yList2[-3:]
+        
+        warning1.setStyle("bold")
+        a, b, c = placeCruiser(text)
+        warning1.setStyle("normal")
 
     warning1.setText("Time for " + text + " to place the Submarine.\n" +
                     "(Please click on 3 consecutive grid)")
@@ -405,10 +527,51 @@ def placeCruiser(text):
 
 def placeSubmarine(text):
     global win, warning1
+    global xList1, yList1, xList2, yList2
 
-    a = shipCircle()
-    b = shipCircle()
-    c = shipCircle()
+    submarineListX, submarineListY = [], []
+
+    a = shipCircle(submarineListX, submarineListY)
+    b = shipCircle(submarineListX, submarineListY)
+    c = shipCircle(submarineListX, submarineListY)
+
+    error = False
+
+    if submarineListX[0] == submarineListX[1]:
+        for i in range(len(submarineListX) - 1):
+            if submarineListX[i] != submarineListX[i + 1]:
+                error = True
+        submarineListY.sort()
+        for i in range(len(submarineListY) - 1):
+            if abs(submarineListY[i] - submarineListY[i + 1]) != 1:
+                error = True
+                
+    elif submarineListY[0] == submarineListY[1]:
+        for i in range(len(submarineListY) - 1):
+            if submarineListY[i] != submarineListY[i + 1]:
+                error = True
+        submarineListX.sort()
+        for i in range(len(submarineListX) - 1):
+            if abs(submarineListX[i] - submarineListX[i + 1]) != 1:
+                error = True
+                
+    else:
+        error = True
+
+    if error == True:
+        for i in [a, b, c]:
+            i.undraw()
+
+        if text[-1] == "1":
+            del xList1[-3:]
+            del yList1[-3:]
+        else:
+            del xList2[-3:]
+            del yList2[-3:]
+        
+        warning1.setStyle("bold")
+        a, b, c = placeSubmarine(text)
+        warning1.setStyle("normal")
 
     warning1.setText("Time for " + text + " to place the Destroyer.\n" +
                     "(Please click on 2 consecutive grid)")
@@ -417,15 +580,56 @@ def placeSubmarine(text):
                      
 def placeDestroyer():
     global win, warning1
+    global xList1, yList1, xList2, yList2
 
-    a = shipCircle()
-    b = shipCircle()
+    destroyerListX, destroyerListY = [], []
+
+    a = shipCircle(destroyerListX, destroyerListY)
+    b = shipCircle(destroyerListX, destroyerListY)
+
+    error = False
+
+    if destroyerListX[0] == destroyerListX[1]:
+        for i in range(len(destroyerListX) - 1):
+            if destroyerListX[i] != destroyerListX[i + 1]:
+                error = True
+        destroyerListY.sort()
+        for i in range(len(destroyerListY) - 1):
+            if abs(destroyerListY[i] - destroyerListY[i + 1]) != 1:
+                error = True
+                
+    elif destroyerListY[0] == destroyerListY[1]:
+        for i in range(len(destroyerListY) - 1):
+            if destroyerListY[i] != detroyerListY[i + 1]:
+                error = True
+        destroyerListX.sort()
+        for i in range(len(destroyerListX) - 1):
+            if abs(destroyerListX[i] - destroyerListX[i + 1]) != 1:
+                error = True
+                
+    else:
+        error = True
+
+    if error == True:
+        for i in [a, b]:
+            i.undraw()
+
+        if text[-1] == "1":
+            del xList1[-2:]
+            del yList1[-2:]
+        else:
+            del xList2[-2:]
+            del yList2[-2:]
+        
+        warning1.setStyle("bold")
+        a, b = placeDestroyer(text)
+        warning1.setStyle("normal")
 
     warning1.setText('You are all set.\nClick on "Done" to clear the marks.')
 
     return a, b                  
 
-def shipCircle():
+def shipCircle(shipListX, shipListY):
     while True:
         x, y = getMouse(0)
 
@@ -433,6 +637,9 @@ def shipCircle():
             break
 
     a = drawSunk(x, y)
+    
+    shipListX.append(x)
+    shipListY.append(y)
 
     return a
 
