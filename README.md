@@ -6,7 +6,7 @@ This is a small game called battleship written in Python 3.6.
 
 Based on the graphics.py written by John Zelle.
 
----------------------Updated August 2, 2017--------------------
+---------------------Updated August 2, 2017-------------------
 - able to identify if the ships are placed on one line (so no more cheating <3)
 - allow players to name themselves
 - minor bug fixes
