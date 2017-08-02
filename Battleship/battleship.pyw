@@ -1,13 +1,15 @@
 # battleship_game_3.0.py
 # Tony Chen
 
-##  Version 3.1
+##  Version 3.2
 ##      - able to identify if the ships are placed on one line
 ##      - allow players to name themselves
+##      - improvements on how the button looks like
 ##      - minor bug fixes
 
 from graphics import *
 from random import random
+from button import Button
 
 def drawWindow():
     global win
@@ -23,36 +25,24 @@ def printIntro():
     intro.setFace("helvetica")
     intro.draw(win)
 
-    square1 = Rectangle(Point(1, -1), Point(4, -3))
-    square1.draw(win)
+    multiple = Button(win, Point(2.5, -2), 3, 2, "Two Players")
+    multiple.setFace("helvetica")
+    multiple.setSize(15)
 
-    square2 = square1.clone()
-    square2.move(-5, 0)
-    square2.draw(win)
-
-    text1 = Text(Point(2.5, -2), "Two Players")
-    text1.setFace("helvetica")
-    text1.setSize(15)
-    text1.draw(win)
-
-    text2 = text1.clone()
-    text2.move(-5, 0)
-    text2.setText("Single Player")
-    text2.draw(win)
+    single = Button(win, Point(-2.5, -2), 3, 2, "Single Player")
+    single.setFace("helvetica")
+    single.setSize(15)
 
     while True:
         a = win.getMouse()
-        x, y = a.getX(), a.getY()
-
-        if -4 <= x <= -1 and -3 <= y <= -1:
+        if single.clicked(a):
             mode = "single"
             break
-        
-        elif 1 <= x <= 4 and -3 <= y <= -1:
+        elif multiple.clicked(a):
             mode = "multiple"
             break
 
-    for i in [intro, square1, square2, text1, text2]:
+    for i in [intro, single, multiple]:
         i.undraw()
 
     return mode
@@ -339,11 +329,8 @@ def placeShip(player, code):
     warning2.setStyle("bold")
     warning2.draw(win)
 
-    square = Rectangle(Point(10.2, 4), Point(11.8, 5))
-    square.draw(win)
-
-    text = Text(Point(11, 4.5), "Done")
-    text.draw(win)
+    button = Button(win, Point(11, 4.5), 1.6, 1, "Done")
+    button.deactivate()
 
     a, b, c, d, e = placeCarrier(player, code)
     f, g, h, i = placeBattleship(player, code)
@@ -351,11 +338,11 @@ def placeShip(player, code):
     m, n, o = placeSubmarine(player, code)
     p, q = placeDestroyer(code)
 
+    button.activate()
+
     while True:
         click = win.getMouse()
-        x, y = click.getX(), click.getY()
-
-        if 10.2 <= x <= 11.8 and 4 <= y <= 5:
+        if button.clicked(click):
             break
 
     shipList = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q]
@@ -363,7 +350,7 @@ def placeShip(player, code):
     for i in shipList:
         i.undraw()
 
-    for i in [warning1, warning2, square, text]:
+    for i in [warning1, warning2, button]:
         i.undraw()
 
 def placeCarrier(text, code):
@@ -1097,22 +1084,17 @@ def getName():
     name1.setSize(15)
     name1.draw(win)
 
-    square = Rectangle(Point(-1, -1), Point(1, -2))
-    square.draw(win)
-
-    text1 = Text(Point(0, -1.5), "Done")
-    text1.draw(win)
+    button = Button(win, Point(0, -1.5), 2, 1, "Done")
 
     while True:
         a = win.getMouse()
-        x, y = a.getX(), a.getY()
-        if -1 <= x <= 1 and -2 <= y <= -1:
+        if button.clicked(a):
             break
 
     player1 = name1.getText()
     player2 = name2.getText()
 
-    for i in [text, name1, name2, square, text1]:
+    for i in [text, name1, name2, button]:
         i.undraw()
 
 def exitGame():
