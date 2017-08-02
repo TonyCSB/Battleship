@@ -1,8 +1,10 @@
 # battleship_game_3.0.py
 # Tony Chen
 
-##  Version 3.0
+##  Version 3.1
 ##      - able to identify if the ships are placed on one line
+##      - allow players to name themselves
+##      - minor bug fixes
 
 from graphics import *
 from random import random
@@ -310,19 +312,20 @@ def isHit(x, y, n):
 
 def placeShips():
     global win, xList1, yList1, xList2, yList2
+    global player1, player2
 
     
-    a = Text(Point(4.5, 10.5), "Player 1").draw(win)
-    b = Text(Point(17.5, 10.5), "Player 2").draw(win)
+    a = Text(Point(4.5, 10.5), str(player1)).draw(win)
+    b = Text(Point(17.5, 10.5), str(player2)).draw(win)
     
     xList1, yList1, xList2, yList2 = [], [], [], []
-    placeShip("Player1")
-    placeShip("Player2")
+    placeShip(player1, 1)
+    placeShip(player2, 2)
 
     a.undraw()
     b.undraw()
 
-def placeShip(player):
+def placeShip(player, code):
     global win, warning1
     
     warning1 = Text(Point(11, -1.5),
@@ -342,11 +345,11 @@ def placeShip(player):
     text = Text(Point(11, 4.5), "Done")
     text.draw(win)
 
-    a, b, c, d, e = placeCarrier(player)
-    f, g, h, i = placeBattleship(player)
-    j, k, l = placeCruiser(player)
-    m, n, o = placeSubmarine(player)
-    p, q = placeDestroyer()
+    a, b, c, d, e = placeCarrier(player, code)
+    f, g, h, i = placeBattleship(player, code)
+    j, k, l = placeCruiser(player, code)
+    m, n, o = placeSubmarine(player, code)
+    p, q = placeDestroyer(code)
 
     while True:
         click = win.getMouse()
@@ -363,7 +366,7 @@ def placeShip(player):
     for i in [warning1, warning2, square, text]:
         i.undraw()
 
-def placeCarrier(text):
+def placeCarrier(text, code):
     global win, warning1
     global xList1, yList1, xList2, yList2
 
@@ -402,7 +405,7 @@ def placeCarrier(text):
         for i in [a, b, c, d, e]:
             i.undraw()
 
-        if text[-1] == "1":
+        if code == 1:
             del xList1[-5:]
             del yList1[-5:]
         else:
@@ -410,7 +413,7 @@ def placeCarrier(text):
             del yList2[-5:]
         
         warning1.setStyle("bold")
-        a, b, c, d, e = placeCarrier(text)
+        a, b, c, d, e = placeCarrier(text, code)
         warning1.setStyle("normal")
         
     warning1.setText("Time for " + text + " to place the Battleship.\n" +
@@ -418,7 +421,7 @@ def placeCarrier(text):
 
     return a, b, c, d, e
 
-def placeBattleship(text):
+def placeBattleship(text, code):
     global win, warning1
     global xList1, yList1, xList2, yList2
 
@@ -456,7 +459,7 @@ def placeBattleship(text):
         for i in [a, b, c, d]:
             i.undraw()
 
-        if text[-1] == "1":
+        if code == 1:
             del xList1[-4:]
             del yList1[-4:]
         else:
@@ -464,7 +467,7 @@ def placeBattleship(text):
             del yList2[-4:]
         
         warning1.setStyle("bold")
-        a, b, c, d = placeBattleship(text)
+        a, b, c, d = placeBattleship(text, code)
         warning1.setStyle("normal")
 
     warning1.setText("Time for " + text + " to place the Cruiser.\n" +
@@ -472,7 +475,7 @@ def placeBattleship(text):
 
     return a, b, c, d
 
-def placeCruiser(text):
+def placeCruiser(text, code):
     global win, warning1
     global xList1, yList1, xList2, yList2
 
@@ -509,7 +512,7 @@ def placeCruiser(text):
         for i in [a, b, c]:
             i.undraw()
 
-        if text[-1] == "1":
+        if code == 1:
             del xList1[-3:]
             del yList1[-3:]
         else:
@@ -517,7 +520,7 @@ def placeCruiser(text):
             del yList2[-3:]
         
         warning1.setStyle("bold")
-        a, b, c = placeCruiser(text)
+        a, b, c = placeCruiser(text, code)
         warning1.setStyle("normal")
 
     warning1.setText("Time for " + text + " to place the Submarine.\n" +
@@ -525,7 +528,7 @@ def placeCruiser(text):
 
     return a, b, c
 
-def placeSubmarine(text):
+def placeSubmarine(text, code):
     global win, warning1
     global xList1, yList1, xList2, yList2
 
@@ -562,7 +565,7 @@ def placeSubmarine(text):
         for i in [a, b, c]:
             i.undraw()
 
-        if text[-1] == "1":
+        if code == 1:
             del xList1[-3:]
             del yList1[-3:]
         else:
@@ -570,7 +573,7 @@ def placeSubmarine(text):
             del yList2[-3:]
         
         warning1.setStyle("bold")
-        a, b, c = placeSubmarine(text)
+        a, b, c = placeSubmarine(text, code)
         warning1.setStyle("normal")
 
     warning1.setText("Time for " + text + " to place the Destroyer.\n" +
@@ -578,7 +581,7 @@ def placeSubmarine(text):
 
     return a, b, c
                      
-def placeDestroyer():
+def placeDestroyer(code):
     global win, warning1
     global xList1, yList1, xList2, yList2
 
@@ -600,7 +603,7 @@ def placeDestroyer():
                 
     elif destroyerListY[0] == destroyerListY[1]:
         for i in range(len(destroyerListY) - 1):
-            if destroyerListY[i] != detroyerListY[i + 1]:
+            if destroyerListY[i] != destroyerListY[i + 1]:
                 error = True
         destroyerListX.sort()
         for i in range(len(destroyerListX) - 1):
@@ -614,7 +617,7 @@ def placeDestroyer():
         for i in [a, b]:
             i.undraw()
 
-        if text[-1] == "1":
+        if code == 1:
             del xList1[-2:]
             del yList1[-2:]
         else:
@@ -622,7 +625,7 @@ def placeDestroyer():
             del yList2[-2:]
         
         warning1.setStyle("bold")
-        a, b = placeDestroyer(text)
+        a, b = placeDestroyer(code)
         warning1.setStyle("normal")
 
     warning1.setText('You are all set.\nClick on "Done" to clear the marks.')
@@ -706,6 +709,7 @@ def playGame():
 def playGame2():
     global win, xClickList1, yClickList1, xClickList2, yClickList2
     global hitList1, hitList2, sunkText1, sunkText2
+    global player1, player2
 
     xClickList1, xClickList2 = [], []
     yClickList1, yClickList2 = [], []
@@ -750,7 +754,7 @@ def playGame2():
         click1 = click1 + 1
 
         text1.setText("Hit: {0:>3}         Round: {1:>3}".format(hit1, click1))
-        sunkText2.setText("Player1's turn")
+        sunkText2.setText(str(player1) + "'s turn")
         
         if hit1 == 17:
             break
@@ -774,15 +778,17 @@ def playGame2():
         click2 = click2 + 1
 
         text2.setText("Hit: {0:>3}         Round: {1:>3}".format(hit2, click2))
-        sunkText1.setText("Player2's turn")
+        sunkText1.setText(str(player2) + "'s turn")
 
     for i in [text1, text2, sunkText1, sunkText2]:
         i.undraw()
 
     if hit1 == 17:
-        Text(Point(11, -1.5), "Congratulations, player1 has won the game!").draw(win)
+        Text(Point(11, -1.5), "Congratulations, " + str(player2) +
+                              " has won the game!").draw(win)
     else:
-        Text(Point(11, -1.5), "Congratulations, player2 has won the game!").draw(win)
+        Text(Point(11, -1.5), "Congratulations, " + str(player1) +
+                              " has won the game!").draw(win)
     
     
 def getMouse(n):
@@ -1071,7 +1077,43 @@ def isSunk(x, y, n):
             
         elif hitList.count(1) == 2:
             sunkText.setText("You've sunk the enemy destroyer!")
-            hitList.remove(1)    
+            hitList.remove(1)
+
+def getName():
+    global player1, player2, win
+
+    text = Text(Point(0, 2.5), "Pick a name:")
+    text.setSize(25)
+    text.setFace("helvetica")
+    text.draw(win)
+
+    name2 = Entry(Point(1.5, 0.5), 10)
+    name2.setText("Player 2")
+    name2.setSize(15)
+    name2.draw(win)
+
+    name1 = Entry(Point(-1.5, 0.5), 10)
+    name1.setText("Player 1")
+    name1.setSize(15)
+    name1.draw(win)
+
+    square = Rectangle(Point(-1, -1), Point(1, -2))
+    square.draw(win)
+
+    text1 = Text(Point(0, -1.5), "Done")
+    text1.draw(win)
+
+    while True:
+        a = win.getMouse()
+        x, y = a.getX(), a.getY()
+        if -1 <= x <= 1 and -2 <= y <= -1:
+            break
+
+    player1 = name1.getText()
+    player2 = name2.getText()
+
+    for i in [text, name1, name2, square, text1]:
+        i.undraw()
 
 def exitGame():
     global win
@@ -1090,7 +1132,7 @@ def main():
         drawWindow()
         mode = printIntro()
 
-        if mode == "single":          
+        if mode == "single":
             win.setCoords(-8.5, 11, 17.5, -2)
             drawInterface()
             randomShips()
@@ -1098,6 +1140,7 @@ def main():
             exitGame()
 
         else:
+            getName()        
             win.setCoords(-2, 11, 24, -2)
             drawInterfaces()
             placeShips()
