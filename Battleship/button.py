@@ -2,6 +2,7 @@
 # Tony Chen
 
 from graphics import *
+from time import sleep
 
 class Button:
 
@@ -53,9 +54,17 @@ class Button:
 
     def clicked(self, p):
         "Returns true if button active and p is inside."
-        return (self.active and
-                self.xmin <= p.getX() <= self.xmax and
-                self.ymin <= p.getY() <= self.ymax)
+        result = False
+        
+        if (self.active and
+            self.xmin <= p.getX() <= self.xmax and
+            self.ymin <= p.getY() <= self.ymax):
+                result = True
+                self.rect.setFill('grey')
+                sleep(0.1)
+                self.rect.setFill('darkgrey')
+
+        return result
 
     def getLabel(self):
         "Returns the label string of this button."
