@@ -1,5 +1,5 @@
 # button.py
-# John Zelle
+# Tony Chen
 
 from graphics import *
 
